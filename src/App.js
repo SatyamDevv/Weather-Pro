@@ -6,18 +6,22 @@ export default function App() {
   const [location, setLocation] = useState("");
   const [weather, setWeather] = useState("");
   const navigate = useNavigate();
+  const apiKey = "a32d21bf3a07496489191426241906";
+  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`;
 
   const getWeather = async () => {
-    const apiKey = "a32d21bf3a07496489191426241906";
-    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`;
-    const response = await fetch(url);
-    const weatherData = await response.json();
-    setWeather(weatherData.current.temp_c);
-    console.log("Weather data:", weatherData.current.temp_c);
+    if (location) {
+      const response = await fetch(url);
+      const weatherData = await response.json();
+      setWeather(weatherData.current.temp_c);
+      console.log("Weather data:", weatherData.current.temp_c);
+    } else {
+      alert("Enter City");
+    }
   };
 
   const changePage = () => {
-    navigate("/weather");
+    navigate(`/${location}`);
   };
 
   const handleInputChange = (event) => {

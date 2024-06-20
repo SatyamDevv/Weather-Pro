@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { Weather } from "./Weather";
+import { City } from "./City";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -12,8 +12,8 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/weather/:city",
-    element: <Weather />,
+    path: "/:city",
+    element: <City />,
   },
 ]);
 

@@ -1,9 +1,12 @@
+// City.js
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./App";
 
-export const Weather = () => {
+export const City = () => {
   const { city } = useParams();
-  const [weather, setWeather] = useState("");
+  const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -16,24 +19,32 @@ export const Weather = () => {
           throw new Error("City not found");
         }
         const weatherData = await response.json();
-        setWeather(weatherData.current.temp_c);
+        setWeather(weatherData.current);
       } catch (err) {
         setError(err.message);
       }
     };
-
     if (city) {
       fetchWeather();
     }
   }, [city]);
 
   return (
-    <div>
-      <h1>Weather Report</h1>
+    <div className="city-container">
+      <h1>Weather Report for {city}</h1>
       {error ? (
-        <p>{error}</p>
+        <p className="error-message">{error}</p>
       ) : (
-        <h4>{weather ? `Temperature of ${city}: ${weather}°C` : "Loading..."}</h4>
+        weather && (
+          <div className="weather-info">
+            <h4>Temperature: {weather.temp_c}°C</h4>
+            <h4>Condition: {weather.condition.text}</h4>
+            <h6>Humidity: {weather.humidity}%</h6>
+            <h6>Wind Speed: {weather.wind_kph} kph</h6>
+            <h6>Feels Like: {weather.feelslike_c}°C</h6>
+            <h6>Last Updated: {weather.last_updated}</h6>
+          </div>
+        )
       )}
     </div>
   );
